@@ -1,1 +1,1 @@
-# Angular front-end for Link-CXO
+# Angular front-end for Link
