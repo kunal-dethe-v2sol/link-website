@@ -1,0 +1,173 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <button (click)="show('manage')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Groups You Manage</button>
+                                <button (click)="show('joined')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Groups You Have Joined</button>
+                            </div>
+                            <div class="col-md-3">
+                                <a [routerLink]="['/groups/new']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">New Group</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div *ngIf="showListOwnGroups">
+                            <div *ngIf="showBusyOwnGroups" class="list-group">
+                                Loading...
+                            </div>
+                            <div *ngIf="showBusyOwnGroups == false && ownGroups.total_count == 0" class="list-group">
+                                No groups found.
+                            </div>
+                            <div *ngIf="ownGroups.total_count" class="list-group">
+                                <div *ngFor="let group of ownGroups.groups" class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <img *ngIf="group.media.image" src="{{group.media.image}}" style="border: 1px solid black;" />
+                                            
+                                            <a [routerLink]="['/groups', group.uuid]">
+                                                <h4 class="list-group-item-heading">{{group.name}}</h4>
+                                            </a>
+                                            <br />
+                                            uuid: {{group.uuid}}
+                                            <br />
+                                            count: {{group.counts.total_member_count}} members
+                                            <br />
+                                            visibility: {{group.visibility}}
+                                            <br />
+                                            <br />
+                                            members:
+                                            <br />
+                                            <div *ngFor="let group_member of group.members">
+                                                uuid: {{group_member.uuid}}<br />
+                                                user_id: {{group_member.user.uuid}}<br />
+                                                full_name {{group_member.user.full_name}}
+                                                <br /><br />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a [routerLink]="['/groups', group.uuid, 'edit']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Edit Group</a>
+                                            <button *ngIf="group.permissions.delete" (click)="delete(group.uuid, 'manage')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">Delete Group</button>
+                                            <button *ngIf="group.permissions.leave" (click)="leave(group.uuid, group.logged_in_member.uuid, 'manage')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-warning">Leave Group</button>
+                                            <button *ngIf="group.permissions.join" (click)="join(group.uuid, 'manage')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-info">Join</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item text-right">
+                                    <a [routerLink]="['/groups/manage']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="showListJoinedGroups">
+                            <div *ngIf="showBusyJoinedGroups" class="list-group">
+                                Loading...
+                            </div>
+                            <div *ngIf="showBusyJoinedGroups == false && joinedGroups.total_count == 0" class="list-group">
+                                No groups found.
+                            </div>
+                            <div *ngIf="joinedGroups.total_count" class="list-group">
+                                <div *ngFor="let group of joinedGroups.groups" class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <a [routerLink]="['/groups', group.uuid]">
+                                                <h4 class="list-group-item-heading">{{group.name}}</h4>
+                                            </a>
+                                            <br />
+                                            uuid: {{group.uuid}}
+                                            <br />
+                                            count: {{group.counts.total_member_count}} members
+                                            <br />
+                                            visibility: {{group.visibility}}
+                                            <br />
+                                            <br />
+                                            members:
+                                            <br />
+                                            <div *ngFor="let group_member of group.members">
+                                                uuid: {{group_member.uuid}}<br />
+                                                user_id: {{group_member.user.uuid}}<br />
+                                                full_name {{group_member.user.full_name}}
+                                                <br /><br />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button *ngIf="group.permissions.delete" (click)="delete(group.uuid, 'joined')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Delete Group</button>
+                                            <button *ngIf="group.permissions.leave" (click)="leave(group.uuid, group.logged_in_member.uuid, 'joined')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Leave Group</button>
+                                            <button *ngIf="group.permissions.join" (click)="join(group.uuid, 'joined')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Join</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item text-right">
+                                    <a [routerLink]="['/groups/joined']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Trending Groups</div>
+                    <div class="panel-body">
+                        <div *ngIf="showBusyTrendingGroups" class="list-group">
+                            Loading...
+                        </div>
+                        <div *ngIf="showBusyTrendingGroups == false && trendingGroups.total_count == 0" class="list-group">
+                            No groups found.
+                        </div>
+                        <div *ngIf="trendingGroups.total_count" class="list-group">
+                            <div *ngFor="let group of trendingGroups.groups" class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <a [routerLink]="['/groups', group.uuid]">
+                                            <h4 class="list-group-item-heading">{{group.name}}</h4>
+                                        </a>
+                                        <br />
+                                        uuid: {{group.uuid}}
+                                        <br />
+                                        count: {{group.counts.total_member_count}} members
+                                        <br />
+                                        visibility: {{group.visibility}}
+                                        <br />
+                                        <br />
+                                        members:
+                                        <br />
+                                        <div *ngFor="let group_member of group.members">
+                                            uuid: {{group_member.uuid}}<br />
+                                            user_id: {{group_member.user.uuid}}<br />
+                                            full_name {{group_member.user.full_name}}
+                                            <br /><br />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button *ngIf="group.permissions.delete" (click)="delete(group.uuid, 'trending')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Delete Group</button>
+                                        <button *ngIf="group.permissions.leave" (click)="leave(group.uuid, group.logged_in_member.uuid, 'trending')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Leave Group</button>
+                                        <button *ngIf="group.permissions.join" (click)="join(group.uuid, 'trending')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Join</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="list-group-item text-right">
+                                <a [routerLink]="['/groups/trending']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Advertisement Space</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

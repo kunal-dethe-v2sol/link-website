@@ -1,0 +1,15 @@
+<div class="left">Messages
+  <a [routerLink]="['/messages/new']">New</a>
+  <hr/>
+  <input (keyup)="search($event)" placeholder="Search messages">
+  <hr/>
+  <div *ngIf="threads.length">
+    <div *ngFor="let thread of threads">
+      <a [routerLink]="['/messages/threads', thread.uuid]">{{thread.user_names}}</a>
+      <input type="checkbox" multiple (change)="check($event, thread.uuid)" />
+      <hr/>
+    </div>
+  </div>
+  <br/><button (click)="deletethreads()">Delete</button>
+</div>
+<router-outlet></router-outlet>

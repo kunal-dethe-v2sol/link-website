@@ -1,0 +1,121 @@
+<p>
+    signup works!
+</p>
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)" id="signUpForm" class="form-horizontal">
+    <p>(All fields are mandatory)</p>
+    <input type="hidden" name="registration_type" formControlName="registration_type">
+    <input type="hidden" name="social_type" value="linkcxo" formControlName="social_type">
+
+    <div class="col-md-8">
+        <div class="form-group" [ngClass]="{
+            'has-error': firstname.invalid && (firstname.dirty || firstname.touched),
+            'has-success': firstname.valid && (firstname.dirty || firstname.touched)
+        }">
+            <div class="col-xs-5">
+                <input type="text" class="form-control" placeholder="First Name" formControlName="firstname" required>
+            </div>
+            <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">
+                <p *ngIf="firstname.errors.required" style="color:red">First Name is required</p>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{
+            'has-danger': lastname.invalid && (lastname.dirty || lastname.touched),
+            'has-success': lastname.valid && (lastname.dirty || lastname.touched)
+        }">
+            <div class="col-xs-5">
+                <input type="text" class="form-control" placeholder="Last Name" formControlName="lastname" required>
+            </div>
+            <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">
+                <p *ngIf="lastname.errors.required" style="color:red">Last Name is required</p>
+            </div>
+        </div>
+        <div class="form-group" [ngClass]="{
+        'has-danger': email.invalid && (email.dirty || email.touched),
+        'has-success': email.valid && (email.dirty || email.touched)
+        }">
+            <div class="col-xs-5">
+                <input type="email" class="form-control" placeholder="Email" formControlName="email" required>
+            </div>
+            <div *ngIf="email.errors && (email.dirty || email.touched)">
+                <p *ngIf="email.errors.required" style="color:red">Email is required</p>
+                <p *ngIf="email.errors.pattern" style="color:red">Please enter valid email. </p>
+            </div>
+        </div>
+        <div class="form-group" [ngClass]="{
+            'has-danger': mobile_no.invalid && (mobile_no.dirty || mobile_no.touched),
+            'has-success': mobile_no.valid && (mobile_no.dirty || mobile_no.touched)
+        }">
+            <div class="col-xs-3">
+                <input type="text" class="form-control" placeholder="mobile_no" formControlName="mobile_no" required (input)="onMobileNoChange()">
+            </div>
+            <div class="col-xs-2">
+                <button class="btn" [disabled]="!mobile_no.valid" value="true" (click)='onClickVerify("otp_req")'>{{OTP_Request}}</button>
+            </div>
+            <div *ngIf="mobile_no.errors && (mobile_no.dirty || mobile_no.touched)">
+                <p *ngIf="mobile_no.errors.required" style="color:red">Mobile number is required</p>
+                <!--<p *ngIf="mobile_no.errors.pattern">Mobile number should be an integer</p>-->
+                <p *ngIf="mobile_no.errors.maxlength" style="color:red">Mobile number must be 10 characters</p>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" name="otp" *ngIf="showVerifyOtpTextbox" class="form-control" formControlName="otp" placeholder="Verify OTP"
+                    required>
+            </div>
+        </div>
+
+
+        <!--<form [formGroup]="signupForm">
+        <div class="form-group">
+            <input type="text" class="form-control" id="exampleFormControlInput1" autofocus tabindex="1" placeholder="First Name" formControlName="firstname">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Last Name" formControlName="lastname">
+        </div>
+        <div class="form-group">
+            <div class="input-field col s12 padding-zero" [ngClass]="{'has-error':!signupForm.controls['email'].valid && signupForm.controls['email'].touched}">
+            <input (keyup.enter)="submitSignIn(signupForm.value)"  id="exampleFormControlInput1" placeholder="Email" type="email" class="form-control validate" [formControl]="signupForm.controls['email']" formControlName="email" />
+            <div *ngIf="!signupForm.controls['email'].valid && signupForm.controls['email'].touched" class="alert alert-danger">
+            <p *ngIf="!signupForm.controls['email'].valid && signupForm.controls['email'].touched">{{email_message}}<br/><br/></p>
+            </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Mobile Number" formControlName="mobile_no">
+            <button type="button" class="btn btn-secondary">OTP Request</button>
+        </div>-->
+        <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary" [disabled]="!signupForm.valid">Reuest SignUp</button>
+            <!--<input type="submit" [disabled]="!signupForm.valid" value="submit">-->
+        </div>
+    </div>
+</form>
+<!--<div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <button (click)="googleLogin()" class="btn btn-block btn-social btn-google">
+                <span class="fa fa-google"></span> Sign in with Google
+            </button>
+            <button (click)="facebookLogin()" class="btn btn-block btn-social btn-facebook">
+                <span class="fa fa-facebook"></span> Sign in with Facebook
+            </button>
+            <button (click)="linkedinLogin()" class="btn btn-block btn-social btn-linkedin">
+                <span class="fa fa-linkedin"></span> Sign in with LinkedIn
+            </button>
+        </div>
+    </div>-->
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <button (click)="googleLogin()" class="btn btn-block btn-social btn-google">
+          <span class="fa fa-google"></span> Sign in with Google
+      </button>
+            <button (click)="facebookLogin()" class="btn btn-block btn-social btn-facebook">
+          <span class="fa fa-facebook"></span> Sign in with Facebook
+      </button>
+            <button (click)="linkedinLogin()" class="btn btn-block btn-social btn-linkedin">
+          <span class="fa fa-linkedin"></span> Sign in with LinkedIn
+      </button>
+        </div>
+    </div>
+</div>

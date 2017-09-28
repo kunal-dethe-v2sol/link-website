@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Member Requests ({{total_count}})</div>
+                <div class="panel-body">
+                    <div *ngIf="showBusy" class="list-group">
+                        Loading...
+                    </div>
+                    <div *ngIf="showBusy == false && total_count == 0" class="list-group">
+                        No member requests found.
+                    </div>
+                    <div *ngIf="total_count" class="list-group">
+                        <div *ngFor="let request of requests" class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <img src="" />
+                                    &nbsp;
+                                    {{request.user.full_name}}
+                                </div>
+                                <div class="col-md-3">
+                                    <button (click)="reject(request.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">Reject</button>
+                                    &nbsp;
+                                    <button (click)="accept(request.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Accept</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

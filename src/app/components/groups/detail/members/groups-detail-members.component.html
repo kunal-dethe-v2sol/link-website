@@ -1,0 +1,125 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Members ({{members.total_count}})</div>
+                    <div class="panel-body">
+                        <div *ngIf="showBusyMembers" class="list-group">
+                            Loading...
+                        </div>
+                        <div *ngIf="showBusyMembers == false && members.total_count == 0" class="list-group">
+                            No group members found.
+                        </div>
+                    </div>
+                    <div *ngIf="members.total_count" class="list-group">
+                        <div *ngFor="let group_member of members.group_members" class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="" />
+                                    &nbsp;
+                                    {{group_member.user.full_name}}
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <!--<button *ngIf="group_member.permissions.make_admin" (click)="makeAdmin(group_member.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Make Admin</button>-->
+                                    &nbsp;
+                                    <button *ngIf="group_member.permissions.make_moderator" (click)="makeModerator(group_member.uuid, 'member')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Make Moderator</button>
+                                    &nbsp;
+                                    <button *ngIf="group_member.permissions.remove_from_group" (click)="removeFromGroup(group_member.uuid, 'member')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">R from Group</button>
+                                    &nbsp;
+                                    <button *ngIf="group_member.permissions.remove_as_moderator" (click)="removeAsModerator(group_member.uuid, 'member')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-warning">R as Moderator</button>
+                                    &nbsp;
+                                    <button *ngIf="group_member.permissions.leave_group" (click)="leaveGroup(group_member.uuid, 'member')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">Leave Group</button>
+                                </div>
+                            </div>
+
+                            <div class="list-group-item text-right">
+                                <!--<a [routerLink]="['/groups', group_id, 'members', 'admins']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">View All</a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <button (click)="show('admin')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Admins ({{admins.total_count}})</button>
+                        <button (click)="show('moderator')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Moderators ({{moderators.total_count}})</button>
+                    </div>
+                    <div class="panel-body">
+                        <div *ngIf="showListAdmins">
+                            <div *ngIf="showBusyAdmins" class="list-group">
+                                Loading...
+                            </div>
+                            <div *ngIf="showBusyAdmins == false && admins.total_count == 0" class="list-group">
+                                No group members found.
+                            </div>
+                            <div *ngIf="admins.total_count" class="list-group">
+                                <div *ngFor="let group_member of admins.group_members" class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img src="" />
+                                            &nbsp;
+                                            {{group_member.user.full_name}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!--<button *ngIf="group_member.permissions.make_admin" (click)="makeAdmin(group_member.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Make Admin</button>-->
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.make_moderator" (click)="makeModerator(group_member.uuid, 'admin')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Make Moderator</button>
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.remove_from_group" (click)="removeFromGroup(group_member.uuid, 'admin')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">R from Group</button>
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.remove_as_moderator" (click)="removeAsModerator(group_member.uuid, 'admin')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-warning">R as Moderator</button>
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.leave_group" (click)="leaveGroup(group_member.uuid, 'admin')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">Leave Group</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="list-group-item text-right">
+                                        <!--<a [routerLink]="['/groups/manage']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">View All</a>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="showListModerators">
+                            <div *ngIf="showBusyModerators" class="list-group">
+                                Loading...
+                            </div>
+                            <div *ngIf="showBusyModerators == false && moderators.total_count == 0" class="list-group">
+                                No group members found.
+                            </div>
+                            <div *ngIf="moderators.total_count" class="list-group">
+                                <div *ngFor="let group_member of moderators.group_members" class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img src="" />
+                                            &nbsp;
+                                            {{group_member.user.full_name}}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!--<button *ngIf="group_member.permissions.make_admin" (click)="makeAdmin(group_member.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Make Admin</button>-->
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.make_moderator" (click)="makeModerator(group_member.uuid, 'moderator')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-success">Make Moderator</button>
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.remove_from_group" (click)="removeFromGroup(group_member.uuid, 'moderator')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">R from Group</button>
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.remove_as_moderator" (click)="removeAsModerator(group_member.uuid, 'moderator')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-warning">R as Moderator</button>
+                                            &nbsp;
+                                            <button *ngIf="group_member.permissions.leave_group" (click)="leaveGroup(group_member.uuid, 'moderator')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-danger">Leave Group</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="list-group-item text-right">
+                                        <!--<a [routerLink]="['/groups/manage']" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">View All</a>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

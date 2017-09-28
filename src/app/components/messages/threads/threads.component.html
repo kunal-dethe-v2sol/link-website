@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+<div class="thread">
+    <div *ngFor="let user of users">
+        {{user.full_name}}
+    </div>
+    {{header}}
+    <button class="btn btn-default" (click)=blockUsers()>Block</button>
+    <button class="btn btn-default" (click)=unblockUsers()>UnBlock</button>
+    <button class="btn btn-default" (click)=export()>Export</button>
+    <button class="btn btn-default" (click)=showConfirm()>Add</button>
+    <hr/>
+    <div class="content-left" *ngIf="messages.length">
+        <div [ngClass]="message.user_id == loggedInUserId ? 'text-right' : 'text-left'" *ngFor="let message of messages">
+            {{message.message}}
+            <div *ngFor="let read_receipt_user of read_receipt_users">
+                {{read_receipt_user.full_name}}
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <input type="text" name="message" placeholder="Enter a message" formControlName="message" />
+        <input type="submit" [disabled]="!form.valid" class="btn btn-primary" name="submit" value="Send" />
+        <input type="file" #image />
+        <input type="file" #file />
+    </form>
+</div>

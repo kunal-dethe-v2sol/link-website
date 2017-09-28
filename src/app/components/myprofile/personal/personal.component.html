@@ -1,0 +1,50 @@
+<p>
+  personal works!
+</p>
+<form #form = "ngForm" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
+  <input type="hidden" name="detail_type" value="personal-info">
+<div class="form-group">
+    <div class="col-xs-5">
+      <ng2-datepicker [options]="options" name="dob" [(ngModel)]="personal.dob"></ng2-datepicker>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-xs-5">
+    <select class="form-control" name="marital_status" [(ngModel)]="personal.marital_status"  #marital_status="ngModel" style="height: 35px;" required >
+      <option value="0">Select Marital status</option>
+      <option value= "single" >Single</option>
+      <option value= "married" >Married</option>
+      <option value= "unmarried" >Unmarried</option>
+    </select>
+    
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-5">
+    <select class="form-control" name="gender" [(ngModel)]="personal.gender"  #gender="ngModel" style="height: 35px;" required >
+      <option value="0">Select Gender</option>
+      <option value= "male" >Male</option>
+      <option value= "female" >Female</option>
+    </select>
+    
+    </div>
+  </div>
+  <div class="form-group">
+          <div class="col-xs-5">
+              <input type="email" class="form-control" placeholder="Email" name="alt_email"  [(ngModel)]="personal.alt_email"  #alt_email="ngModel">
+          </div>
+    </div>
+    <div class="form-group">
+          <div class="col-xs-5">
+              <input type="text" class="form-control" placeholder="Mobile Number" name="alt_mobile" [(ngModel)]="personal.alt_mobile"  #alt_mobile="ngModel">
+        </div>
+  </div>
+  <div class="form-group">
+          <div class="col-xs-5">
+            <input type="text" class="form-control" placeholder="Pincode / Zipcode" name="pincode" [(ngModel)]="personal.pincode"  #pincode="ngModel" >
+          </div>
+    </div>
+    <div class="col-xs-4">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+  </div>
+</form>

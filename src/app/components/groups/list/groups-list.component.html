@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a [routerLink]="['/groups/manage']">Groups You Manage</a>
+                    |
+                    <a [routerLink]="['/groups/joined']">Groups You Have Joined</a>
+                    |
+                    <a [routerLink]="['/groups/trending']">Trending Groups</a>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">{{title}}</div>
+
+                    <div *ngIf="showBusy" class="list-group">
+                        Loading...
+                    </div>
+                    <div *ngIf="showBusy == false && total_count == 0" class="list-group">
+                        No groups found.
+                    </div>
+                    <div *ngIf="total_count" class="list-group">
+                        <div *ngFor="let group of groups" class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <a [routerLink]="['/groups', group.uuid]">
+                                        <h4 class="list-group-item-heading">{{group.name}}</h4>
+                                    </a>
+                                    <br />
+                                    uuid: {{group.uuid}}
+                                    <br />
+                                    count: {{group.counts.total_member_count}} members
+                                    <br />
+                                    visibility: {{group.visibility}}
+                                    <br />
+                                    <br />
+                                    members:
+                                    <br />
+                                    <div class="col-md-12">
+                                        <div *ngFor="let group_member of group.members">
+                                            <div class="col-md-4">
+                                                uuid: {{group_member.uuid}}<br />
+                                                user_id: {{group_member.user.uuid}}<br />
+                                                full_name {{group_member.user.full_name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button *ngIf="group.permissions.delete" (click)="delete(group.uuid, type)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Delete Group</button>
+                                    <button *ngIf="group.permissions.leave" (click)="leave(group.uuid, group.logged_in_member.uuid, type)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Leave Group</button>
+                                    <button *ngIf="group.permissions.join" (click)="join(group.uuid, type)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Join</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="total_count" class="list-group-item text-right">
+                            <button *ngIf="page > 1" [disabled]="showBusy" (click)="previousPage()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Previous</button>
+                            <button *ngIf="total_count && (page + limit <= total_count)" [disabled]="showBusy" (click)="nextPage()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

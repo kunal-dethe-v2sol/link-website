@@ -1,0 +1,54 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div *ngIf="group.uuid" class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="" />
+                            </div>
+                            <div class="col-md-8">
+                                {{group.name}}
+                                <br />
+                                {{group.counts.total_member_count}} members - {{group.visibility}}
+                            </div>
+                            <div class="col-md-3">
+                                <a *ngIf="group.permissions.manage" [routerLink]="['/groups', group.uuid, 'manage']" routerLinkActive="active" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Manage Group</a>
+                                &nbsp;
+                                <button *ngIf="group.permissions.delete" (click)="delete(group.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Delete Group</button>
+                                &nbsp;
+                                <button *ngIf="group.permissions.join" (click)="join(group.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Join</button>
+                                &nbsp;
+                                <button *ngIf="group.permissions.leave" (click)="leave(group.uuid, group.logged_in_member.uuid)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Leave Group</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div *ngIf="!group.uuid">
+                            Loading...
+                        </div>
+                        <div *ngIf="group.uuid">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <a [routerLink]="['/groups', group.uuid, 'discussion']" routerLinkActive="active" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Discussion</a>
+                                    &nbsp;
+                                    <a [routerLink]="['/groups', group.uuid, 'members']" routerLinkActive="active" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Members</a>
+                                    &nbsp;
+                                    <a [routerLink]="['/groups', group.uuid, 'about']" routerLinkActive="active" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">About Group</a>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" name="search" placeholder="Search this group" />
+                                </div>
+                            </div>
+
+                            <hr />
+                            <router-outlet></router-outlet>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

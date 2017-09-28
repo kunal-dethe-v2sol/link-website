@@ -1,0 +1,37 @@
+<div id="add-ppl-modal" class="modal-dialog medium-modal add-ppl-modal">
+  <!--<div class="modal-dialog">-->
+  <div class="modal-content bottom-border">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="close()">&times;</button>
+      <h5>Add people to message</h5>
+    </div>
+    <!--<div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="close()">&times;</button>
+      <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+    </div>-->
+    <form [formGroup]="form" (ngSubmit)="add(form.value)">
+      <div class="modal-body scrollable">
+        <!--<div class="modal-body">-->
+        <div class="compose-search-person">
+          <div class="chips chips-placeholder" data-index="1" data-initialized="true">
+            <input id="4055b10c-64d2-4e6f-d6d5-3827331194c3" (keyup)="connectionSearch($event)" class="input" placeholder="Enter Name or Multiple Names"/><br/>
+            <select multiple name="user_ids" formControlName="user_ids">
+              <option *ngFor="let connection of connections" [value]="connection.user.uuid">
+                {{connection.user.full_name}} 
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" [disabled]="!form.valid" name="submit" value="Add" />
+        <!--<button type="button" class="btn btn-primary" (click)="confirm()">OK</button>-->
+        <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <!--</div>-->
+</div>
+
+

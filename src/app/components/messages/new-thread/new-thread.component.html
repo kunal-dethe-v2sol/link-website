@@ -1,0 +1,30 @@
+<div class="new">
+  Message Title
+  <hr/>
+  <form [formGroup]="form" (ngSubmit)="newThread(form.value)">
+    <input (keyup)="connectionSearch($event)" placeholder="Search connections"><br/>
+    <select multiple name="user_ids" formControlName="user_ids">
+      <option *ngFor="let connection of connections" [value]="connection.user.uuid">
+        {{connection.user.full_name}} 
+      </option>
+    </select>
+    <hr/>
+    <input type="text" name="header" placeholder="Enter a header" formControlName="header" />
+      <div *ngIf="!form.valid"  class="alert alert-danger">
+        <p>Header is required.</p>
+      </div>
+    <hr/>
+    <input type="text" name="message" placeholder="Enter a message" formControlName="message" />
+    <input type="submit" [disabled]="!form.valid" name="signup_submit" value="Send" />
+    <input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)"
+      name="file" formControlName="file">
+    <input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)"
+      name="image" formControlName="image">
+    <div ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)"
+      (beforeUpload)="beforeUpload($event)">
+    </div>
+    <div>
+      Response: {{ uploadFile | json }}<br/> Response: {{ uploadImage | json }}
+    </div>
+  </form>
+</div>

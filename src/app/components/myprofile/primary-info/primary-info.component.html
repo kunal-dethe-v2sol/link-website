@@ -1,0 +1,107 @@
+<p>
+  primary-info works!
+</p>
+<form #form = "ngForm" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
+  <div class="col-md-8">
+    <div class="form-group">
+      <div class="col-xs-5">
+        <input type="text" class="form-control" placeholder="First Name" name="firstname"  [(ngModel)]="primary.firstname" required #firstname="ngModel">
+      
+      <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="alert alert-danger">
+          <p *ngIf="firstname.errors.required">First name is required</p>
+      </div>
+      </div>
+    </div>
+    <div class="form-group">
+          <div class="col-xs-5">
+            <input type="text" class="form-control" placeholder="Last Name" name="lastname"  [(ngModel)]="primary.lastname"   required #lastname="ngModel">
+          
+          <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="alert alert-danger">
+            <p *ngIf="lastname.errors.required">Last name is required</p>
+          </div>
+          </div>
+    </div>
+    <div class="form-group">
+          <div class="col-xs-5">
+              <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="primary.email" pattern="[^ @]*@[^ @]*" required #email="ngModel">
+          </div>
+          <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+            <p *ngIf="email.errors.required">Email is required</p>
+            <p *ngIf="email.errors.pattern">Email must contain at least the @ character</p>
+          </div>
+    </div>
+    <div class="form-group">
+          <div class="col-xs-5">
+              <input type="text" class="form-control" placeholder="Mobile Number" name="mobile_no" [(ngModel)]="primary.mobile_no" required #mobile_no ="ngModel">
+        
+        <div *ngIf="mobile_no.errors && (mobile_no.dirty || mobile_no.touched)" class="alert alert-danger">
+            <p *ngIf="mobile_no.errors.required" style="color:red">Mobile number is required</p>
+            <!--<p *ngIf="mobile_no.errors.pattern">Mobile number should be an integer</p>-->
+            <p *ngIf="mobile_no.errors.maxlength" style="color:red">Mobile number must be 10 characters</p>
+        </div>
+        </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-5">
+    <select class="form-control" [(ngModel)]="primary.country_id" name="country_id" (change) = "getState($event.target.value)" style="height: 35px;" required #country_id='ngModel'>
+      <!--<option value="0">Select Country</option>-->
+      <option *ngFor="let country of countries" value= {{country.uuid}} >
+        {{country.name}}
+      </option>
+    </select>
+    <div *ngIf="country_id.errors && (country_id.dirty || country_id.touched)" class="alert alert-danger">
+      <div [hidden]="!country_id.errors.required">
+        Country is required.
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-5">
+    <!--//[(ngModel)]="selectedCity.id"-->
+    <select class="form-control" [(ngModel)]="primary.state_id" name="state_id" (change) = "getCity($event.target.value)" style="height: 35px;" required #state_id='ngModel'>
+      <!--<option value="">Select State</option>-->
+      <option *ngFor="let state of states" value= {{state.uuid}}>
+        {{state.name}}
+      </option>
+    </select>
+    <div *ngIf="state_id.errors && (state_id.dirty || state_id.touched)" class="alert alert-danger">
+      <div [hidden]="!state_id.errors.required">
+        State is required.
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-5">
+    <!--//[(ngModel)]="selectedCity.id"-->
+    <select class="form-control" [(ngModel)]="primary.city_id" name="city_id" style="height: 35px;" required #city_id='ngModel'>
+      <!--<option value="0">Select City</option>-->
+      <option *ngFor="let city of cities" value= {{city.uuid}}>
+        {{city.name}}
+      </option>
+    </select>
+    <div *ngIf="city_id.errors && (city_id.dirty || city_id.touched)" class="alert alert-danger">
+      <div [hidden]="!city_id.errors.required">
+        City is required.
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-5">
+    <textarea placeholder="Summary:max 500 character" [(ngModel)]="primary.summary" class="form-control" name="summary" required #summary='ngModel' >                             
+    </textarea>
+    
+    <div *ngIf="summary.errors && (summary.dirty || summary.touched)" class="alert alert-danger">
+          <p *ngIf="summary.errors.required">Summary is required</p>
+      </div>
+      </div>
+  </div>
+  <div class="col-xs-4">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+  </div>
+  </div>
+
+                    
+</form>

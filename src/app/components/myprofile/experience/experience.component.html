@@ -1,0 +1,165 @@
+<p>
+    experience works!
+</p>
+<button type="button" (click)="addNew()" class="btn btn-primary">Add New Experience</button>
+<br>
+<div class="container">
+    <div class="row">
+        <form [formGroup]="expForm" (ngSubmit)="onSubmit(expForm.value)" class="form-horizontal">
+            <div class="col-md-8" style="border-style: solid;" formArrayName="expDiv">
+                <div *ngFor="let itemrow of expForm.controls.expDiv.controls; let i=index" style="border-style: solid;margin-top: 22px;margin-bottom: 22px;">
+                    <div class="panel-heading">
+                        <span>Experience Details {{i + 1}}</span>
+                        <span class="glyphicon glyphicon-remove pull-right" *ngIf="expForm.controls.expDiv.controls.length > 1" (click)="removeAddress(i)"></span>
+                    </div>
+                    <div class="panel-body" [formGroupName]="i">
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" placeholder="Employer name*" formControlName="employername" required>
+
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.employername.valid" class="alert alert-danger">
+                                    <p>Employer name is required</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" placeholder="Role*" formControlName="role" required>
+
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.role.valid" class="alert alert-danger">
+                                    <p>Role is required</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" placeholder="From Date*" name="fromdate" formControlName="fromdate" required>
+
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.fromdate.valid" class="alert alert-danger">
+                                    <p>From date is required</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" placeholder="To Date*" formControlName="todate" required>
+
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.todate.valid" class="alert alert-danger">
+                                    <p>To date is required</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <input type="checkbox" name="tillnow" formControlName="tillnow" required>Till Now
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <select class="form-control" (change)="getState($event.target.value)" style="height: 35px;" formControlName="country_id" required>
+                                    <option value="">Select Country</option>
+                                    <option *ngFor="let country of countries" value={ {country.uuid}}>
+                                        {{country.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.country_id.valid" class="alert alert-danger">
+                                    <p>
+                                        Country is required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+
+                                <select class="form-control" (change)="getCity($event.target.value)" style="height: 35px;" formControlName="state_id" required>
+                                    <option value="">Select State</option>
+                                    <!--<option *ngFor="let state of states" value={ {state.uuid}}>
+                                        {{state.name}}
+                                    </option>-->
+                                </select>
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.state_id.valid" class="alert alert-danger">
+                                    <p>
+                                        State is required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+
+                                <select class="form-control" style="height: 35px;" formControlName="city_id" required>
+                                    <option value="">Select City</option>
+                                    <!--<option *ngFor="let city of cities" value={ {city.uuid}}>
+                                        {{city.name}}
+                                    </option>-->
+                                </select>
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.city_id.valid" class="alert alert-danger">
+                                    <p>
+                                        City is required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <select class="form-control" formControlName="industry" style="height: 35px;" required>
+                                    <option value="">Select Industry*</option>
+
+                                </select>
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.industry.valid" class="alert alert-danger">
+                                    <p>
+                                        Industry is required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <select class="form-control" formControlName="functional_area" style="height: 35px;" required>
+                                    <option value="">Select Functional Area*</option>
+
+                                </select>
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.functional_area.valid" class="alert alert-danger">
+                                    <p>
+                                        Functional area is required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <select class="form-control" formControlName="designation" style="height: 35px;" required>
+                                    <option value="">Select Designation*</option>
+
+                                </select>
+                                <div *ngIf="!expForm.controls.expDiv.controls[i].controls.designation.valid" class="alert alert-danger">
+                                    <p>
+                                        Designation area is required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <textarea placeholder="Achievement" class="form-control" formControlName="achievement" required>
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-5">
+                                <textarea placeholder="Short Description" class="form-control" formControlName="short_description" required>
+                                </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary" [disabled]="!expForm.valid">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
